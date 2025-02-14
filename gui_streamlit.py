@@ -3,24 +3,37 @@
 # Enhanced Streamlit GUI for HydroAI
 # ------------------------------------------
 
-from data_pipeline.data_generators import generate_flow_data
 import streamlit as st
+from streamlit_lottie import st_lottie
+import requests
+import json
+
 import numpy as np
 import pandas as pd
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, mean_absolute_error, r2_score
 
-from data_pipeline.data_generators import generate_flow_data, generate_quality_data
 from data_pipeline.anomaly_detection import DataPreprocessor, AnomalyDetector
 from data_pipeline.forecasting import ConsumptionForecaster
 from data_pipeline.quality_classifier import WaterQualityClassifier
+from data_pipeline.data_generators import generate_flow_data, generate_quality_data
 
-from sklearn.metrics import confusion_matrix
 
-from sklearn.metrics import mean_absolute_error, r2_score
+def load_lottiefile(filepath: str):
+    if "http" in filepath:
+        r = requests.get(filepath)
+        return r.json()
+    else:
+        with open(filepath) as f:
+            
+            return json.load(f)
+
+
+lottie_file = load_lottiefile("water.json")
 
 # * 1. Anomaly Detection
 
@@ -308,6 +321,9 @@ def main():
         *Below, you can optionally specify a random seed.* 
         If unchecked, data is randomly generated each time.
         """)
+
+        st_lottie(lottie_file, speed=1, height=150,
+                  key="initial", loop=True, reverse=False)
 
     elif choice == "Anomaly Detection":
         st.subheader("Anomaly Detection Demo")

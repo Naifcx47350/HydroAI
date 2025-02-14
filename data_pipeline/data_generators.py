@@ -5,9 +5,11 @@
 
 import numpy as np
 import pandas as pd
-
+import random as rd
 
 # data_generators.py (partial)
+
+
 def generate_flow_data(num_points=(2880*2), random_state=None):
     """
     Generate synthetic water flow data (e.g., hourly). 
@@ -19,7 +21,7 @@ def generate_flow_data(num_points=(2880*2), random_state=None):
     t = np.arange(num_points)
     flow = 15 + np.sin(t * 0.1) * 5 + np.random.normal(0, 1, num_points)
 
-    flow[200:220] = 40
+    flow[200:220] = 50
     flow[500:520] = 0
 
     return pd.Series(flow, name='flow_rate')
